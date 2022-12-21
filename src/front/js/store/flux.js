@@ -24,14 +24,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getMessage: async () => {
 				try{
 					console.log("test data")
-					// fetching data from the backend
 					const resp = await fetch("https://3001-jimematthie-jwtauthwith-o999558qtiy.ws-us79.gitpod.io/api/token")
-					console.log("test data")
-					console.log(resp)
 					const data = await resp.json()
-					console.log("test data access_token", data.access_token)
 					setStore({ message: data.access_token })
-					// don't forget to return something, that is how the async resolves
 					return data;
 				}catch(error){
 					console.log("Error loading message from backend", error)

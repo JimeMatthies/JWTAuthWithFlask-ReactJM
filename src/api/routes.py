@@ -21,7 +21,7 @@ def handle_hello():
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    user = User.filter.query(email=email, password=password).first()
+    user = User.query.filter(email=email, password=password).first()
     if user is None:
         return jsonify({"message": "Bad username or password"}), 401   
     access_token = create_access_token(identity=user.id)
@@ -29,14 +29,12 @@ def create_token():
 
 @api.route("/token", methods=["GET"])
 def get_token():
-    #access_token = create_access_token(identity=1234)
-    #return jsonify(access_token=access_token)
-    return 'Hello, user'
+    access_token = create_access_token(identity=1234)
+    return jsonify(access_token=access_token)
+    #return 'Hello, user'
 
 @api.route("/protected", methods=["GET"])
 @jwt_required()
-def get_user():
-    current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
-    
-    return jsonify({"id": user.id, "email": user.email }), 200
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
