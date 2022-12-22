@@ -22,13 +22,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getMessage: async () => {
-				try{
+				try {
 					console.log("test data")
-					const resp = await fetch("https://3001-jimematthie-jwtauthwith-o999558qtiy.ws-us79.gitpod.io/api/token")
+					const resp = await fetch(process.env.BACKEND_URL + "/api/token")
 					const data = await resp.json()
 					setStore({ message: data.access_token })
 					return data;
-				}catch(error){
+				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
 			},
