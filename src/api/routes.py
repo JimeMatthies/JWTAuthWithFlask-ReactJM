@@ -1,6 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import os
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
@@ -16,22 +17,21 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
-
+    
 @api.route("/token", methods=["POST"])
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    user = User.query.filter(email=email, password=password).first()
-    if user is None:
-        return jsonify({"message": "Bad username or password"}), 401   
-    access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id })
+    if email != "test" or password != "test":
+        return jsonify({"msg": "Bad email or password"}), 401
+
+    access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token)
 
 @api.route("/token", methods=["GET"])
 def get_token():
     access_token = create_access_token(identity=1234)
     return jsonify(access_token=access_token)
-    #return 'Hello, user'
 
 @api.route("/protected", methods=["GET"])
 @jwt_required()

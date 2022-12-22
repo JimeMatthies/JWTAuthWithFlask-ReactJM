@@ -20,6 +20,9 @@ static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
+app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET') # change this!
+jwt = JWTManager(app)
+
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
@@ -28,10 +31,6 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')
-app.config['JWT_TOKEN_LOCATION'] = ['headers', 'query_string']
-jwt = JWTManager(app)
-
 MIGRATE = Migrate(app, db, compare_type = True)
 db.init_app(app)
 
