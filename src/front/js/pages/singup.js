@@ -21,7 +21,7 @@ export const Singup = () => {
 	return (
 		<div className="text-center my-5">
 			<div className="title my-3">
-				<h1>Login</h1>
+				<h1>Sing up</h1>
 			</div>
 			{store.token && store.token != "" && store.token != undefined ? (
 				"You are logged in with this token => " + store.token
