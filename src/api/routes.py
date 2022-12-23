@@ -12,9 +12,9 @@ api = Blueprint('api', __name__)
 @api.route('/hello', methods=['GET'])
 @jwt_required()
 def handle_hello():
-
+    email = get_jwt_identity()
     response_body = {
-        "message": "Hello! You are logged in!"
+        "message": "Hello! "+ email +" You are logged in!"
     }
 
     return jsonify(response_body)
@@ -33,9 +33,3 @@ def create_token():
 def get_token():
     access_token = create_access_token(identity=1234)
     return jsonify(access_token=access_token)
-
-@api.route("/protected", methods=["GET"])
-@jwt_required()
-def protected():
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user)
