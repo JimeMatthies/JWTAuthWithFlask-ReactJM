@@ -9,14 +9,15 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 
 api = Blueprint('api', __name__)
 
-@api.route('/hello', methods=['POST', 'GET'])
+@api.route('/hello', methods=['GET'])
+@jwt_required()
 def handle_hello():
 
     response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
+        "message": "Hello! You are logged in!"
     }
 
-    return jsonify(response_body), 200
+    return jsonify(response_body)
     
 @api.route("/token", methods=["POST"])
 def create_token():
@@ -37,4 +38,4 @@ def get_token():
 @jwt_required()
 def protected():
     current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
+    return jsonify(logged_in_as=current_user)

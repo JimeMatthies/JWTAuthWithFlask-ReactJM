@@ -29,6 +29,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+			logout: () => {
+				sessionStorage.removeItem("token");
+				console.log("Login out")
+				setStore({token: null})
+			},
+
 			login: async (email, password) => {
 				const options = {
 					method: "POST",
@@ -59,9 +65,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getMessage: async () => {
+				const store = getStore();
+				const options = {
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": "Bearer " + store.token
+					},
+				};
+
 				try {
 					// fetching data from the backend
-					const response = await fetch(process.env.BACKEND_URL + "/api/hello")
+					const response = await fetch(process.env.BACKEND_URL + "/api/hello", options)
 					const data = await response.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves

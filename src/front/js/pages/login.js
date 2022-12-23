@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../styles/home.css";
 
 export const Login = () => {
@@ -24,7 +24,7 @@ export const Login = () => {
 				<h1>Login</h1>
 			</div>
 			{store.token && store.token != "" && store.token != undefined ? (
-				"You are logged-in with this token => " + store.token
+				"You are logged in with this token => " + store.token
 			) : (
 				<div className="container col-md-4">
 					<div className="form-floating mb-3">
